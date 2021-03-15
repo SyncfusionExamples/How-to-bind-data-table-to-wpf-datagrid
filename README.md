@@ -1,4 +1,4 @@
-# How-to-bind-data-table-to-wpf-datagrid
+# How to bind the data table to WPF DataGrid (SfDataGrid)?
 
 This sample show cases how to bind the data table to [WPF DataGrid](https://www.syncfusion.com/wpf-ui-controls/datagrid) (SfDataGrid).
 
