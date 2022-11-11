@@ -1,7 +1,109 @@
-# How to bind the data table to WPF DataGrid (SfDataGrid)?
+# How to bind data table to WPF DataGrid (SfDataGrid)
+ 
 
-This sample show cases how to bind the data table to [WPF DataGrid](https://www.syncfusion.com/wpf-ui-controls/datagrid) (SfDataGrid).
+[WPF DataGrid](https://www.syncfusion.com/wpf-ui-controls/datagrid) (SfDataGrid) supports to bind the [DataTable](https://docs.microsoft.com/en-us/dotnet/api/system.data.datatable?view=net-5.0) as ItemsSource. You can also bind the datatable from the [dataset](https://docs.microsoft.com/en-us/dotnet/api/system.data.dataset?view=netframework-4.8).
 
-[WPF DataGrid](https://www.syncfusion.com/wpf-ui-controls/datagrid) (SfDataGrid) supports to bind the DataTable as ItemsSource. You can also bind the datatable from the dataset.
+## ViewModel creation
 
-KB article - [How to bind the data table to WPF DataGrid (SfDataGrid)?](https://www.syncfusion.com/kb/10870/how-to-bind-data-table-to-wpf-datagrid-sfdatagrid)
+Create a view model class in the WPF project similar to the one in the following code example
+
+```
+public class ViewModel
+{
+    public ViewModel()
+    {
+        DataTableCollection = GetDataTable();
+    }
+    public DataTable DataTableCollection { get; set; }
+ 
+    private DataTable GetDataTable()
+    {
+        DataTable dataTable = new DataTable();
+        dataTable.Columns.Add("Order ID", typeof(int));
+        dataTable.Columns.Add("Customer Name", typeof(string));
+        dataTable.Columns.Add("Customer ID", typeof(string));
+        dataTable.Columns.Add("Country", typeof(string));
+        dataTable.Rows.Add(1001, "Maria Anders", "ALFKI", "Germany");
+        dataTable.Rows.Add(1002, "Ana Trujilo", "ANATR", "Mexico");
+        dataTable.Rows.Add(1003, "Antonio Moreno", "ENDGY", "Mexico");
+        dataTable.Rows.Add(1004, "Thomas Hardy", "ANTON", "UK");
+        dataTable.Rows.Add(1005, "Christina Berglund", "BERGS", "Sweden");
+        dataTable.Rows.Add(1006, "Hanna Moos", "BLAUS", "Germany");
+        dataTable.Rows.Add(1007, "Frederique Citeaux", "BLONP", "France");
+        dataTable.Rows.Add(1008, "Martin Sommer", "BOLID", "Spain");
+        dataTable.Rows.Add(1009, "Laurence Lebihan", "BONAP", "France");
+        dataTable.Rows.Add(1010, "Kathryn", "BOTTM", "Canada");
+        dataTable.Rows.Add(1011, "Tamer", "XDKLF", "UK");
+        dataTable.Rows.Add(1012, "Martin", "QEUDJ", "US");
+        dataTable.Rows.Add(1013, "Nancy", "ALOPS", "France");
+        dataTable.Rows.Add(1014, "Janet", "KSDIO", "Canada");
+        dataTable.Rows.Add(1015, "Dodsworth", "AWSDE", "Canada");
+        dataTable.Rows.Add(1016, "Buchanan", "CDFKL", "Germany");
+        dataTable.Rows.Add(1017, "Therasa", "WSCJD", "Canada");
+        dataTable.Rows.Add(1018, "Margaret", "PLSKD", "UK");
+        dataTable.Rows.Add(1019, "Anto", "CCDSE", "Sweden");
+        dataTable.Rows.Add(1020, "Edward", "EWUJG", "Germany");
+        return dataTable;
+    }
+}
+```
+
+## Binding ItemsSource in XAML
+
+In the main page, add the necessary XML namespace to use <b>SfDataGrid</b> control, set the <b>DataContext</b> of the window to the <b>ViewModel</b> class, and bind the <b>ItemsSource</b> of <b>SfDataGrid</b> with the <b>DataTableCollection</b>.
+
+```
+<Window x:Class="SfDataGridDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SfDataGridDemo"
+         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <syncfusion:SfDataGrid x:Name="dataGrid"  ItemsSource="{Binding DataTableCollection}" />
+    </Grid>
+</Window>
+```
+
+## CRUD operations
+DataGrid automatically refreshes the UI whenever we add, delete or modify the rows of the underlying DataTable collection.
+
+## Data operations
+DataGrid supports various data operations to represent the data in it. The following are supported by default:
+
+<li>Sorting (including multicolumn sorting)</li>
+<li>Grouping (including multicolumn grouping)</li>
+<li>Filtering</li>
+<li>Summaries</li>
+
+## Sorting
+You can sort columns with the various built-in options such as [multicolumn sorting](https://help.syncfusion.com/wpf/datagrid/sorting?_ga=2.180296620.967019853.1668146580-766490130.1650530957&_gl=1*s0bkad*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#multi-column-sorting) and [tri-state sorting](https://help.syncfusion.com/wpf/datagrid/sorting?_ga=2.113824911.967019853.1668146580-766490130.1650530957&_gl=1*7tcxb*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#sorting-order). But [custom sorting](https://help.syncfusion.com/wpf/datagrid/sorting?_ga=2.113824911.967019853.1668146580-766490130.1650530957&_gl=1*7tcxb*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#custom-sorting) is not supported.
+
+## Grouping
+
+The data can be organized in a hierarchical structure based on matching field values. [Custom grouping](https://help.syncfusion.com/wpf/datagrid/grouping?_ga=2.79827743.967019853.1668146580-766490130.1650530957&_gl=1*1s4l0x4*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#custom-grouping) are also supported.
+
+## Filtering
+
+You can filter columns with the various built-in options such as [Excel like UI filtering](https://help.syncfusion.com/wpf/datagrid/filtering?_ga=2.155196467.967019853.1668146580-766490130.1650530957&_gl=1*10dxjci*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#excel-like-ui-filtering), [Advanced UI filtering](https://help.syncfusion.com/wpf/datagrid/filtering?_ga=2.176634797.967019853.1668146580-766490130.1650530957&_gl=1*d5mt7g*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#advanced-filter-ui) and [programmatic filtering](https://help.syncfusion.com/wpf/datagrid/filtering?_ga=2.176634797.967019853.1668146580-766490130.1650530957&_gl=1*d5mt7g*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#column-filtering) by using [FilterPredicates](https://help.syncfusion.com/cr/cref_files/wpf/Syncfusion.SfGrid.WPF~Syncfusion.UI.Xaml.Grid.GridColumn~FilterPredicates.html?_ga=2.176634797.967019853.1668146580-766490130.1650530957&_gl=1*d5mt7g*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w). But DataGrid’s built-in [View.Filtering](https://help.syncfusion.com/wpf/datagrid/filtering?_ga=2.117513985.967019853.1668146580-766490130.1650530957&_gl=1*kwb2bq*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTcyMjk3LjAuMC4w#%22view-filtering%22) is not supported for the DataTable class. But you can filter the records using DataTable’s [DataView.RowFilter](https://docs.microsoft.com/en-us/dotnet/api/system.data.dataview.rowfilter?view=netframework-4.8) property.
+
+## Summaries
+
+All summary types supported by DataGrid are supported for DataTable, i.e. [group summary](https://help.syncfusion.com/wpf/datagrid/summaries?_gl=1*10qjw6i*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTczMzIwLjAuMC4w&_ga=2.146340796.967019853.1668146580-766490130.1650530957#group-summary), [caption summary](https://help.syncfusion.com/wpf/datagrid/summaries?_gl=1*10qjw6i*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTczMzIwLjAuMC4w&_ga=2.146340796.967019853.1668146580-766490130.1650530957#caption-summaries), and [table summary](https://help.syncfusion.com/wpf/datagrid/summaries?_gl=1*10qjw6i*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTczMzIwLjAuMC4w&_ga=2.146340796.967019853.1668146580-766490130.1650530957#table-summary).
+
+## Other features
+
+The support for all other features, such as stacked headers, row drag and drop, unbound column, and unbound row, of DataGrid are available.
+
+You can refer to the [user guide](https://help.syncfusion.com/wpf/datagrid/overview?_gl=1*4qdw9a*_ga*NzY2NDkwMTMwLjE2NTA1MzA5NTc.*_ga_WC4JKKPHH0*MTY2ODE3MTIzNy4yOTkuMS4xNjY4MTczMzIwLjAuMC4w&_ga=2.146349116.967019853.1668146580-766490130.1650530957) to learn more about the DataGrid’s feature sets.
+
+Please refer this [link](https://www.syncfusion.com/wpf-ui-controls/datagrid) to know about the essential features of Syncfusion WPF DataGrid.
+
+
+
